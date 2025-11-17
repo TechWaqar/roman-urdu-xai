@@ -112,37 +112,21 @@ if st.button("🚀 Analyze with AI", use_container_width=True):
             
             # LIME Explanation
             st.markdown("### 🔍 Word-Level Explanation")
-            with st.spinner("Generating LIME explanation..."):
-                exp = explainer.explain_instance(text_input, predict_proba, num_features=10, num_samples=100)
-                lime_weights = dict(exp.as_list())
-                
-                # Display highlighted text
-                words = text_input.split()
-                html_output = ""
-                for word in words:
-                    weight = lime_weights.get(word.lower(), 0)
-                    if abs(weight) < 0.1:
-                        color = "#10b981"
-                        bg = "rgba(16, 185, 129, 0.2)"
-                    elif weight > 0.1:
-                        color = "#ef4444"
-                        bg = "rgba(239, 68, 68, 0.2)"
-                    else:
-                        color = "#f59e0b"
-                        bg = "rgba(245, 158, 11, 0.2)"
-                    
-                    html_output += f'<span style="background:{bg}; color:{color}; padding:4px 8px; margin:2px; border-radius:8px; font-weight:600;">{word}</span> '
-                
-                st.markdown(html_output, unsafe_allow_html=True)
-                
-                st.markdown("""
-                <div style="margin-top:1rem; text-align:center;">
-                    <span style="background:rgba(16,185,129,0.2); color:#10b981; padding:4px 12px; margin:4px; border-radius:8px;">🟢 Safe</span>
-                    <span style="background:rgba(245,158,11,0.2); color:#f59e0b; padding:4px 12px; margin:4px; border-radius:8px;">🟡 Mild</span>
-                    <span style="background:rgba(239,68,68,0.2); color:#ef4444; padding:4px 12px; margin:4px; border-radius:8px;">🔴 Offensive</span>
-                </div>
-                """, unsafe_allow_html=True)
-    else:
+            # Show analyzed text without fake highlighting
+            st.markdown("### 🔍 Analyzed Text")
+            st.markdown(f'<div style="background: #f8f9fa; padding: 1.5rem; border-radius: 12px; font-size: 1.1rem;">{text_input}</div>', unsafe_allow_html=True)
+            
+            st.info("""
+            **💡 About Explainability:**  
+            Word-level importance analysis using LIME requires 20-30 seconds per prediction and significant computational resources.
+            
+            **For full explainability features:**
+            - Run the local version with your trained model
+            - See `notebooks/03_explainability.ipynb` for detailed LIME/SHAP analysis
+            - View saved explanations in `results/` folder
+            
+            This deployed version prioritizes fast real-time predictions for demonstration purposes.
+            """)
         st.warning("⚠️ Please enter some text to analyze!")
 
 # Sidebar
@@ -193,3 +177,4 @@ with st.sidebar:
     - Java
 
     """)
+
