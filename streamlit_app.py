@@ -33,7 +33,7 @@ st.markdown("""
 # Load model
 @st.cache_resource
 def load_model():
-    MODEL_PATH = "results/models/bert_model"
+    MODEL_PATH = "bert-base-multilingual-cased"
     tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH)
     model = AutoModelForSequenceClassification.from_pretrained(MODEL_PATH)
     model.eval()
@@ -191,4 +191,5 @@ with st.sidebar:
     - LIME & SHAP
     - Streamlit
     - Java
+
     """)
